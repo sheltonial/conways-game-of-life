@@ -1,8 +1,19 @@
 ## Conway's Game of Life
 
-```
-usage: npm run start max_generations output_matrix_size timeout_between_generations starting_coordinates  
+Run and visualise GoL in your terminal.
 
+### Setup
+```
+npm install
+```
+
+### Usage
+```
+npm run start max_generations output_matrix_size timeout_between_generations starting_coordinates
+```
+
+### Examples
+```
 # small exploder
 npm run start 99 17 250 [[-1,0],[0,-1],[0,0],[0,1],[1,-1],[1,1],[2,0]]
 
