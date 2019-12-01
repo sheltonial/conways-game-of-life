@@ -31,7 +31,7 @@ function play(startingCoords) {
       coords = gol.nextGeneration(coords);
       renderMatrix(coords, matrixSize);
       console.log(`Generation: ${i}${outputPadding}`);
-      console.log(`Alive nodes: ${coords.length}${outputPadding}`);
+      console.log(`Cells alive: ${coords.length}${outputPadding}`);
     }, timeoutMs * i);
   }
 }

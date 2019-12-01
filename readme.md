@@ -1,6 +1,6 @@
 ## Conway's Game of Life
 
-Run and visualise GoL in your terminal.
+Visualise GoL in the terminal.
 
 ### Setup
 ```
