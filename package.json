@@ -1,5 +1,5 @@
 {
-  "name": "gol2",
+  "name": "gol",
   "version": "1.0.0",
   "description": "",
   "main": "lib/main.js",
@@ -7,13 +7,12 @@
     "start": "clear && node cli-runner.js",
     "test": "jest"
   },
-  "author": "",
+  "author": "Andrew Shelton",
   "license": "ISC",
   "devDependencies": {
     "jest": "^24.9.0"
   },
   "dependencies": {
-    "cli": "^1.0.1",
     "node-emoji": "^1.10.0",
     "table": "^5.4.6",
     "terminal-kit": "^1.31.7"
