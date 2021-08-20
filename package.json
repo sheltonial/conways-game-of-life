@@ -10,7 +10,8 @@
   "author": "Andrew Shelton",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "node-notifier": ">=8.0.1"
   },
   "dependencies": {
     "node-emoji": "^1.10.0",
