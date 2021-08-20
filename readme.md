@@ -1,4 +1,4 @@
-## Conway's Game of Life
+## Conway's Game of Life test
 
 Visualise GoL in the terminal.
 
