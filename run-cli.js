@@ -1,7 +1,6 @@
 const gol = require("./lib/gol");
 const table = require("table").table;
 const term = require("terminal-kit").terminal;
-const emoji = require("node-emoji");
 
 const args = process.argv.slice(2);
 const maxGenerations = parseInt(args[0]);
@@ -11,7 +10,7 @@ const startingCoords = JSON.parse(args[3]);
 const mode = (args[4] || '').toLowerCase()
 
 function renderMatrix(coords, size) {
-  const matrix = gol.coordsToMatrix(coords, size, emoji.get("smile"));
+  const matrix = gol.coordsToMatrix(coords, 0, 0, size, size, "😄")
   const tableConfig = {
     columnDefault: {
       width: 3
