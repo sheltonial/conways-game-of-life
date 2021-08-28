@@ -4,7 +4,8 @@
   "description": "",
   "main": "lib/main.js",
   "scripts": {
-    "start": "clear && node cli-runner.js",
+    "start-cli": "clear && node run-cli.js",
+    "start-browser": "node run-browser.js",
     "test": "jest"
   },
   "author": "Andrew Shelton",
@@ -14,7 +15,6 @@
     "node-notifier": ">=8.0.1"
   },
   "dependencies": {
-    "node-emoji": "^1.10.0",
     "table": "^5.4.6",
     "terminal-kit": "^1.31.7"
   }
