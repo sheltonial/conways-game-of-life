@@ -6,13 +6,15 @@
   "scripts": {
     "start-cli": "clear && node run-cli.js",
     "start-browser": "node run-browser.js",
+    "lint": "npx prettier --write .",
     "test": "jest"
   },
   "author": "Andrew Shelton",
   "license": "ISC",
   "devDependencies": {
     "jest": "^24.9.0",
-    "node-notifier": ">=8.0.1"
+    "node-notifier": ">=8.0.1",
+    "prettier": "2.3.2"
   },
   "dependencies": {
     "table": "^5.4.6",

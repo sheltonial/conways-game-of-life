@@ -3,6 +3,7 @@
 Visualise GoL in the terminal or browser.
 
 ## Setup
+
 ```
 npm install
 ```
@@ -10,11 +11,13 @@ npm install
 ## CLI runner
 
 ### Usage
+
 ```
 npm run start-cli max_generations output_matrix_size timeout_between_generations starting_coordinates run_mode
 ```
 
 ### Examples
+
 ```
 # small exploder
 npm run start 99 17 250 "[[-1,0],[0,-1],[0,0],[0,1],[1,-1],[1,1],[2,0]]"
@@ -35,12 +38,14 @@ npm run start 100000 37 0 "[[-17,0],[-17,1],[-16,0],[-16,1],[-7,0],[-7,1],[-7,2]
 ## Browser runner
 
 ### Usage
+
 ```
 # start web server, runs on localhost port 3000
 npm run start-browser
 ```
 
 ### Examples
+
 ```
 # small exploder
 http://localhost:3000?coords=[-1,0],[0,-1],[0,0],[0,1],[1,-1],[1,1],[2,0]
