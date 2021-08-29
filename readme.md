@@ -1,4 +1,4 @@
-# Conway's Game of Life
+# [Conway's Game of Life](https://sheltonial.github.io/conways-game-of-life/)
 
 Visualise GoL in the terminal or browser.
 
