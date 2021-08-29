@@ -228,7 +228,8 @@
         const prevScaledX = toTrueX(prevCursorX);
         const prevScaledY = toTrueY(prevCursorY);
 
-        if (rightMouseDown) {
+        //if (rightMouseDown) {
+        if (leftMouseDown || rightMouseDown) {  
           // move the screen
           offsetX += (cursorX - prevCursorX) / scale;
           offsetY += (cursorY - prevCursorY) / scale;
@@ -294,6 +295,7 @@
         prevTouches[0] = event.touches[0];
         prevTouches[1] = event.touches[1];
       }
+
       function onTouchMove(event) {
         // get first touch coordinates
         const touch0X = event.touches[0].pageX;
@@ -305,6 +307,14 @@
         const scaledY = toTrueY(touch0Y);
         const prevScaledX = toTrueX(prevTouch0X);
         const prevScaledY = toTrueY(prevTouch0Y);
+
+        // todo: works?
+        if (singleTouch) {
+          // move the screen
+          offsetX += (touch0X - prevTouch0X) / scale;
+          offsetY += (touch0Y - prevTouch0Y) / scale;
+          redrawCanvas();
+        }
 
         if (doubleTouch) {
           // get second touch coordinates
