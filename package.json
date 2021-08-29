@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/main.js",
   "scripts": {
-    "build-public": "mkdir -p .public && cp index.html lib/gol.js .public",
+    "build-public": "mkdir -p public && cp index.html lib/gol.js public",
     "start-cli": "clear && node run-cli.js",
     "start-browser": "node run-browser.js",
     "lint": "npx prettier --write .",
