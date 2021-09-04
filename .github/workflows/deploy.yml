@@ -15,6 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install node modules
+        run: npm ci
+        
       - name: Build
         run: npm run build-public
 
