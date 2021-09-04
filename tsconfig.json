@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "outDir": "public"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
