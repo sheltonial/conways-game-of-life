@@ -4,21 +4,20 @@
   "description": "",
   "main": "lib/main.js",
   "scripts": {
-    "build-public": "mkdir -p public && cp index.html lib/gol.js public",
-    "start-cli": "clear && node run-cli.js",
-    "start-browser": "node run-browser.js",
+    "build": "rm -rf public && tsc && cp src/index.html public",
+    "start": "npm run build && open public/index.html",
     "lint": "npx prettier --write .",
-    "test": "jest"
+    "test": "npx jest"
   },
   "author": "Andrew Shelton",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^24.9.0",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.10",
+    "jest": "^27.1.0",
     "node-notifier": ">=8.0.1",
-    "prettier": "2.3.2"
-  },
-  "dependencies": {
-    "table": "^5.4.6",
-    "terminal-kit": "^1.31.7"
+    "prettier": "2.3.2",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.2"
   }
 }
