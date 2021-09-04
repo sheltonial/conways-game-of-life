@@ -1,4 +1,4 @@
-const gol = require("./gol");
+const gol = require("../src/gol.ts");
 
 const CELL_STATE = {
   DEAD: 0,
@@ -41,12 +41,12 @@ describe("isCellAlive()", () => {
   });
 });
 
-describe("setCell()", () => {
+describe("trackCell()", () => {
   test("adds an alive cell to state", () => {
     const state = {
       "0_0": CELL_STATE.ALIVE,
     };
-    gol.setCell(-1, -2, state, true);
+    gol.trackCell(-1, -2, state, true);
     expect(state).toEqual({
       "0_0": CELL_STATE.ALIVE,
       "-1_-2": CELL_STATE.ALIVE,
@@ -57,7 +57,7 @@ describe("setCell()", () => {
     const state = {
       "0_0": CELL_STATE.ALIVE,
     };
-    gol.setCell(-1, -2, state, false);
+    gol.trackCell(-1, -2, state, false);
     expect(state).toEqual({
       "0_0": CELL_STATE.ALIVE,
       "-1_-2": CELL_STATE.DEAD,
@@ -65,9 +65,9 @@ describe("setCell()", () => {
   });
 });
 
-describe("getNeighbourCoords()", () => {
+describe("getNeighborCoords()", () => {
   test("gets neighbor keys", () => {
-    expect(gol.getNeighbourCoords(0, 0)).toEqual([
+    expect(gol.getNeighborCoords(0, 0)).toEqual([
       { x: -1, y: -1 },
       { x: -1, y: 0 },
       { x: -1, y: 1 },
