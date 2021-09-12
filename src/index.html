@@ -192,6 +192,8 @@
       canvas.addEventListener("mouseout", onMouseUp, false);
       canvas.addEventListener("mousemove", onMouseMove, false);
       canvas.addEventListener("wheel", onMouseWheel, false);
+      // document.addEventListener('mousewheel', DoSomething);
+      // document.addEventListener('DOMMouseScroll', DoSomething);
 
       // Touch Event Handlers
       canvas.addEventListener("touchstart", onTouchStart);
@@ -244,6 +246,7 @@
         rightMouseDown = false;
       }
       function onMouseWheel(event) {
+        event.preventDefault();
         const deltaY = event.deltaY;
         const scaleAmount = -deltaY / 500;
         scale = scale * (1 + scaleAmount);
