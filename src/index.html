@@ -105,7 +105,7 @@
             }
             coords = newCoords;
 
-            redrawCanvas();
+            requestAnimationFrame(redrawCanvas);
 
             if (
               oneSecondInFuture === null ||
