@@ -5,7 +5,7 @@
   "main": "lib/main.js",
   "scripts": {
     "build": "rm -rf public && tsc && cp src/index.html public",
-    "start": "npm run build && open public/index.html",
+    "start": "npm run build && npx http-server public -c-1 -o",
     "lint": "npx prettier --write .",
     "test": "npx jest"
   },
@@ -14,6 +14,7 @@
   "devDependencies": {
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.10",
+    "http-server": "^13.0.2",
     "jest": "^27.1.0",
     "node-notifier": ">=8.0.1",
     "prettier": "2.3.2",
