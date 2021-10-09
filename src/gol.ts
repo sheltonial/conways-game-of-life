@@ -97,7 +97,11 @@ function stateToCoords(state: State): Array<Coordinate> {
   }, []);
 }
 
-self.addEventListener("message", nextGenerationAndFilterViewportMessage);
+
+if (typeof self !== "undefined") {
+  self.addEventListener("message", nextGenerationAndFilterViewportMessage);
+}
+
 
 function nextGenerationAndFilterViewportMessage(message) {
   const coords = message.data.coords
@@ -108,12 +112,13 @@ function nextGenerationAndFilterViewportMessage(message) {
 
   const newCoords = nextGeneration(coords);
   const viewportCoords = filterCoordsInViewport(newCoords, x, y, width, height)
-
-  self.postMessage({
-    "command":"update",
-    "coords": newCoords,
-    "viewportCoords": viewportCoords
-  });
+  if (typeof self !== "undefined") {
+    self.postMessage({
+      "command":"update",
+      "coords": newCoords,
+      "viewportCoords": viewportCoords
+    });
+  }
 }
 
 function nextGeneration(coords: Array<Coordinate>) {
