@@ -2,9 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - master
-      - publishToSubfolder
+    branches-ignore:
+      - gh-pages
 
 jobs:
   deploy:
