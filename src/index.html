@@ -89,38 +89,43 @@
         return canvas.clientWidth / scale;
       }
 
+
+      let oneSecondInFuture = null;
+      let generationsInThisSecond = 0;
+      
+
       function play() {
-        let oneSecondInFuture = null;
-        let generationsInThisSecond = 0;
+        //for (let i = 0; i <= maxGenerations; i++) {
+        //  setTimeout(() => {
+        generation += 1;
 
-        for (let i = 0; i <= maxGenerations; i++) {
-          setTimeout(() => {
-            generation = i;
-
-            // todo: stop timers
-            let newCoords = gol.nextGeneration(coords);
-            if (JSON.stringify(coords) === JSON.stringify(newCoords)) {
-              console.log("no changes");
-              return;
-            }
-            coords = newCoords;
-
-            requestAnimationFrame(redrawCanvas);
-
-            if (
-              oneSecondInFuture === null ||
-              new Date().getTime() > oneSecondInFuture.getTime()
-            ) {
-              oneSecondInFuture = new Date();
-              oneSecondInFuture.setSeconds(oneSecondInFuture.getSeconds() + 1);
-
-              generationsPerSecond = generationsInThisSecond;
-              generationsInThisSecond = 0;
-            } else {
-              generationsInThisSecond++;
-            }
-          }, timeoutMs * i);
+        // todo: stop timers
+        let newCoords = gol.nextGeneration(coords);
+        if (JSON.stringify(coords) === JSON.stringify(newCoords)) {
+          console.log("no changes");
+          return;
         }
+        coords = newCoords;
+
+        redrawCanvas();
+
+        if (
+          oneSecondInFuture === null ||
+          new Date().getTime() > oneSecondInFuture.getTime()
+        ) {
+          oneSecondInFuture = new Date();
+          oneSecondInFuture.setSeconds(oneSecondInFuture.getSeconds() + 1);
+
+          generationsPerSecond = generationsInThisSecond;
+          generationsInThisSecond = 0;
+        } else {
+          generationsInThisSecond++;
+        }
+          //}, timeoutMs * i);
+        //}
+
+        let playFunction = play.bind(this);
+        window.requestAnimationFrame(playFunction);
       }
 
       function renderMatrix(coords, size) {
@@ -379,7 +384,8 @@
         doubleTouch = false;
       }
 
-      play();
+      let playFunction = play.bind(this);
+      window.requestAnimationFrame(playFunction);
     </script>
   </body>
 </html>
