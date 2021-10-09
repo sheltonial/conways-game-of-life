@@ -97,6 +97,25 @@ function stateToCoords(state: State): Array<Coordinate> {
   }, []);
 }
 
+self.addEventListener("message", nextGenerationAndFilterViewportMessage);
+
+function nextGenerationAndFilterViewportMessage(message) {
+  const coords = message.data.coords
+  const x = message.data.x
+  const y = message.data.y
+  const width = message.data.width
+  const height = message.data.height
+
+  const newCoords = nextGeneration(coords);
+  const viewportCoords = filterCoordsInViewport(newCoords, x, y, width, height)
+
+  self.postMessage({
+    "command":"update",
+    "coords": newCoords,
+    "viewportCoords": viewportCoords
+  });
+}
+
 function nextGeneration(coords: Array<Coordinate>) {
   const state = coordsToState(coords);
   const stateTrackingNeighbors = trackNeighborsOfAliveCells(state);
@@ -194,4 +213,5 @@ const golExports = {
 
 if (typeof module !== "undefined" && typeof module.exports !== "undefined")
   module.exports = golExports;
-else window["gol"] = golExports;
+else if (typeof window !== "undefined")
+  window["gol"] = golExports;

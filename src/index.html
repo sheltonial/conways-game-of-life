@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Game of Life</title>
-    <script src="gol.js"></script>
 
     <style>
       html,
@@ -50,6 +49,7 @@
         "[-17,0],[-17,1],[-16,0],[-16,1],[-7,0],[-7,1],[-7,2],[-6,-1],[-6,3],[-5,-2],[-5,4],[-4,-2],[-4,4],[-3,1],[-2,-1],[-2,3],[-1,0],[-1,1],[-1,2],[0,1],[3,-2],[3,-1],[3,0],[4,-2],[4,-1],[4,0],[5,-3],[5,1],[7,-4],[7,-3],[7,1],[7,2],[17,-2],[17,-1],[18,-2],[18,-1]";
       let coords = JSON.parse(`[${params.coords || defaultCoords}]`);
       const timeoutMs = params.speed || 50;
+      let coordsInViewport = [];
 
       // disable right clicking
       document.oncontextmenu = function () {
@@ -93,40 +93,112 @@
       let oneSecondInFuture = null;
       let generationsInThisSecond = 0;
       
+      let worker = new Worker("gol.js");
+      // var blob = new Blob(Array.prototype.map.call(document.querySelectorAll('script[type=\'text\/js-worker\']'), function (oScript) { return oScript.textContent; }),{type: 'text/javascript'});
+      // let worker = new Worker(window.URL.createObjectURL(blob));
+
+      function handleWorkerUpdate(message) {
+          if (message.data.command == "update") {
+            console.log(4)
+            generation += 1;
+
+            // todo: stop timers
+            let newCoords = message.data.coords;
+            coordsInViewport = message.data.viewportCoords
+
+            if (JSON.stringify(coords) === JSON.stringify(newCoords)) {
+              console.log("no changes");
+              worker.removeEventListener("message", handleWorkerCompletion);
+              return;
+            }
+            coords = newCoords;
+
+            window.requestAnimationFrame(redrawCanvas)
+
+            if (
+              oneSecondInFuture === null ||
+              new Date().getTime() > oneSecondInFuture.getTime()
+            ) {
+              oneSecondInFuture = new Date();
+              oneSecondInFuture.setSeconds(oneSecondInFuture.getSeconds() + 1);
+
+              generationsPerSecond = generationsInThisSecond;
+              generationsInThisSecond = 0;
+            } else {
+              generationsInThisSecond++;
+            }
+            nextGenInWorker()
+          }
+        }
 
       function play() {
-        //for (let i = 0; i <= maxGenerations; i++) {
-        //  setTimeout(() => {
-        generation += 1;
 
-        // todo: stop timers
-        let newCoords = gol.nextGeneration(coords);
-        if (JSON.stringify(coords) === JSON.stringify(newCoords)) {
-          console.log("no changes");
-          return;
-        }
-        coords = newCoords;
+        worker.addEventListener("message", handleWorkerUpdate, false);
 
-        redrawCanvas();
-
-        if (
-          oneSecondInFuture === null ||
-          new Date().getTime() > oneSecondInFuture.getTime()
-        ) {
-          oneSecondInFuture = new Date();
-          oneSecondInFuture.setSeconds(oneSecondInFuture.getSeconds() + 1);
-
-          generationsPerSecond = generationsInThisSecond;
-          generationsInThisSecond = 0;
-        } else {
-          generationsInThisSecond++;
-        }
-          //}, timeoutMs * i);
-        //}
-
-        let playFunction = play.bind(this);
-        window.requestAnimationFrame(playFunction);
+        nextGenInWorker()
       }
+
+      function nextGenInWorker(){
+        canvas.width = document.body.clientWidth;
+        canvas.height = document.body.clientHeight;
+
+        context.fillStyle = "#fff";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        const cellSize = 30;
+        const cellCountX = Math.ceil(trueWidth() / cellSize) + 1;
+        const cellCountY = Math.ceil(trueHeight() / cellSize) + 1;
+
+        const viewportStartX = Math.ceil(offsetX / cellSize) * -1;
+        const viewportStartY = Math.ceil(offsetY / cellSize) * -1;
+
+        worker.postMessage({
+          coords: coords,
+          x: viewportStartX,
+          y: viewportStartY,
+          width: cellCountX,
+          height: cellCountY
+        });
+      }
+
+
+      // // doPointlessComputationsInWorker()
+
+      // function play() {
+
+
+      //   //for (let i = 0; i <= maxGenerations; i++) {
+      //   //  setTimeout(() => {
+      //   generation += 1;
+
+      //   // todo: stop timers
+      //   let newCoords = gol.nextGeneration(coords);
+      //   if (JSON.stringify(coords) === JSON.stringify(newCoords)) {
+      //     console.log("no changes");
+      //     return;
+      //   }
+      //   coords = newCoords;
+
+      //   redrawCanvas();
+
+      //   if (
+      //     oneSecondInFuture === null ||
+      //     new Date().getTime() > oneSecondInFuture.getTime()
+      //   ) {
+      //     oneSecondInFuture = new Date();
+      //     oneSecondInFuture.setSeconds(oneSecondInFuture.getSeconds() + 1);
+
+      //     generationsPerSecond = generationsInThisSecond;
+      //     generationsInThisSecond = 0;
+      //   } else {
+      //     generationsInThisSecond++;
+      //   }
+      //     //}, timeoutMs * i);
+      //   //}
+
+      //   let playFunction = play.bind(this);
+      //   window.requestAnimationFrame(playFunction);
+      // }
 
       function renderMatrix(coords, size) {
         const matrix = gol.coordsToMatrix(coords, size, emoji.get("smile"));
@@ -159,13 +231,13 @@
         const viewportStartX = Math.ceil(offsetX / cellSize) * -1;
         const viewportStartY = Math.ceil(offsetY / cellSize) * -1;
 
-        const coordsInViewport = window.gol.filterCoordsInViewport(
-          coords,
-          viewportStartX,
-          viewportStartY,
-          cellCountX,
-          cellCountY
-        );
+        // const coordsInViewport = window.gol.filterCoordsInViewport(
+        //   coords,
+        //   viewportStartX,
+        //   viewportStartY,
+        //   cellCountX,
+        //   cellCountY
+        // );
 
         for (let i = 0; i < coordsInViewport.length; i++) {
           let x = coordsInViewport[i][0];
@@ -384,8 +456,9 @@
         doubleTouch = false;
       }
 
-      let playFunction = play.bind(this);
-      window.requestAnimationFrame(playFunction);
+      play()
+      // let playFunction = play.bind(this);
+      // window.requestAnimationFrame(playFunction);
     </script>
   </body>
 </html>
